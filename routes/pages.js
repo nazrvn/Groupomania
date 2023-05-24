@@ -16,9 +16,39 @@ router.get('/register', (req, res) => {
     res.render('register');
  })
 
-router.get('/profile', authController.isLoggedIn, (req, res) => {
+ router.get('/profile', authController.isLoggedIn, (req, res) => {
+    try {
+      if (req.user) {
+        if (req.user.role === 'admin') {
+          res.render('admin', {
+            user: req.user
+          });
+        } else {
+          res.render('profile', {
+            user: req.user
+          });
+        }
+      } else {
+        res.redirect('/login');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+})
 
-    //console.log('User:', req.user);
+router.get('/dashboard', authController.isLoggedIn, (req, res) => {
+    try {
+      if (req.user.role === 'admin') {
+        res.render('dashboard');
+      } else {
+        res.redirect('/login');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+});  
+
+/* router.get('/profile', authController.isLoggedIn, (req, res) => {
 
     try {
         if(req.user){
@@ -31,7 +61,6 @@ router.get('/profile', authController.isLoggedIn, (req, res) => {
     } catch (error){
         console.log(error);
     }
-    
- })
+})  */
 
  module.exports = router;

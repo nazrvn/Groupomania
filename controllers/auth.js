@@ -178,7 +178,7 @@ exports.register = (req, res) => {
       });
     }
   });
-}
+};
 
 exports.login = async (req, res) => {
     try {
