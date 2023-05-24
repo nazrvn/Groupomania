@@ -3,13 +3,59 @@ const bcrypt = require('bcryptjs');
 const { promisify } = require('util');
 const db = require('../database_connect');
 
-exports.register = (req, res) => {
+/* exports.register = (req, res) => {
   console.log(req.body);
 
-  //const name = req.body.name;
-  //const email = req.body.email;
-  //const password = req.body.password;
-  //const passwordConfirm = req.body.passwordConfirm;
+  const { name, email, password, passwordConfirm } = req.body;
+
+  db.query('SELECT * FROM users WHERE role = "admin"', async (error, results) => {
+    if (error) {
+      console.log(error);
+      return res.render('register', {
+        message: 'Error checking for admin'
+      });
+    }
+
+    if (results.length > 0) {
+      // SI ADMIN EXISTE, L'UTTILISATEUR PREND LE ROLE DE user
+      const role = 'user';
+
+      db.query('INSERT INTO users SET ?', { name, email, password, role }, (error, results) => {
+          if (error) {
+            console.log(error);
+            return res.render('register', {
+              message: 'Error registering user'
+            });
+          } else {
+            return res.render('register', {
+              message: 'User Registered!'
+            });
+          }
+        }
+      );
+    } else {
+      // SI L'ADMIN EXISTE PAS, L'UTTILISATEUR PREND LE ROLE admin
+      const role = 'admin';
+
+      db.query( 'INSERT INTO users SET ?', { name, email, password, role }, (error, results) => {
+          if (error) {
+            console.log(error);
+            return res.render('register', {
+              message: 'Error registering admin'
+            });
+          } else {
+            return res.render('register', {
+              message: 'Admin Registered!'
+            });
+          }
+        }
+      );
+    }
+  });
+}
+
+exports.register = (req, res) => {
+  console.log(req.body);
 
   const { name, email, password, passwordConfirm } = req.body;
 
@@ -46,6 +92,91 @@ exports.register = (req, res) => {
           }
       });
   
+  });
+} */
+
+exports.register = (req, res) => {
+  console.log(req.body);
+
+  const { name, email, password, passwordConfirm } = req.body;
+
+  db.query('SELECT * FROM users WHERE role = "admin"', async (error, results) => {
+    if (error) {
+      console.log(error);
+      return res.render('register', {
+        message: 'Error checking for admin'
+      });
+    }
+
+    if (results.length > 0) {
+      // SI ADMIN EXISTE, L'UTILISATEUR PREND LE RÔLE DE user
+      const role = 'user';
+
+      db.query('SELECT email FROM users WHERE email = ?', [email], async (error, results) => {
+        if (error) {
+          console.log(error);
+        }
+        if (results.length > 0) {
+          return res.render('register', {
+            message: 'That email is already in use!'
+          });
+        } else if (password !== passwordConfirm) {
+          return res.render('register', {
+            message: 'Passwords do not match!'
+          });
+        }
+
+        let hashedPassword = await bcrypt.hash(password, 8);
+        console.log(hashedPassword);
+
+        db.query('INSERT INTO users SET ?', { name, email, password: hashedPassword, role }, (error, results) => {
+          if (error) {
+            console.log(error);
+            return res.render('register', {
+              message: 'Error registering user'
+            });
+          } else {
+            return res.render('register', {
+              message: 'User Registered!'
+            });
+          }
+        });
+      });
+    } else {
+      // SI L'ADMIN N'EXISTE PAS, L'UTILISATEUR PREND LE RÔLE admin
+      const role = 'admin';
+
+      db.query('SELECT email FROM users WHERE email = ?', [email], async (error, results) => {
+        if (error) {
+          console.log(error);
+        }
+        if (results.length > 0) {
+          return res.render('register', {
+            message: 'That email is already in use!'
+          });
+        } else if (password !== passwordConfirm) {
+          return res.render('register', {
+            message: 'Passwords do not match!'
+          });
+        }
+
+        let hashedPassword = await bcrypt.hash(password, 8);
+        console.log(hashedPassword);
+
+        db.query('INSERT INTO users SET ?', { name, email, password: hashedPassword, role }, (error, results) => {
+          if (error) {
+            console.log(error);
+            return res.render('register', {
+              message: 'Error registering admin'
+            });
+          } else {
+            return res.render('register', {
+              message: 'Admin Registered!'
+            });
+          }
+        });
+      });
+    }
   });
 }
 
