@@ -10,5 +10,5 @@ router.get('/logout', authController.logout);
 
 // ADMIN
 router.post('/save', authController.AddUser);
-
+router.post('/update/:id', authController.EditUser);
 module.exports = router;

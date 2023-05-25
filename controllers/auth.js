@@ -226,12 +226,78 @@ exports.GetUsers = async (req, res) => {
 }
 
 exports.EditUser = async (req, res) => {
-  db.query('SELECT * FROM users', (error, results) => {
-    if (error) {
-      throw error;
-    } else {
-    res.render('dashboard', { user: results });
-    }
-  });
+  try {
+    console.log(req.body);
+    console.log(req.params.id);
+
+    const { name, email, password } = req.body;
+    const userId = req.params.id;
+
+    let hashedPassword = await bcrypt.hash(password, 8);
+    console.log(hashedPassword);
+
+    db.query(
+      'UPDATE users SET name = ?, email = ?, password = ? WHERE userId = ?',
+      [name, email, hashedPassword, userId],
+      async (error, results) => {
+        if (error) {
+          throw error;
+        } else {
+          console.log(results);
+          if (results.changedRows === 0) {
+            // No rows were affected, indicating the user was not found
+            return res.status(404).render('dashboard', { message: 'User not found' });
+          } else {
+            // Fetch the updated user data from the database
+            db.query('SELECT * FROM users', (error, updatedResults) => {
+              if (error) {
+                throw error;
+              } else {
+                return res.status(200).render('dashboard', { message: 'User updated successfully', user: updatedResults });
+              }
+            });
+          }
+        }
+      }
+    );
+  } catch (error) {
+    console.log(error);
+    return res.status(500).render('dashboard', { message: 'Internal server error' });
+  }
 }
+
+/* exports.EditUser = async (req, res) => {
+  try {
+
+    console.log(req.body);
+    console.log(req.params.id);
+
+    const { name, email, password } = req.body;
+    const userId = req.params.id;
+
+    let hashedPassword = await bcrypt.hash(password, 8);
+    console.log(hashedPassword);
+
+    db.query('UPDATE users SET name = ?, email = ?, password = ? WHERE userId = ?', [name, email, hashedPassword, userId], (error, results) => {
+        if (error) {
+          throw error;
+        } else {
+          console.log(results);
+          if (results.changedRows === 0) {
+            // No rows were affected, indicating the user was not found
+            return res.status(404).render('dashboard', { message: 'User not found' });
+          } else {
+            return res.status(200).render('dashboard', { message: 'User updated successfully' });
+          }
+        }
+      }
+      
+    );
+  } catch (error) {
+    console.log(error);
+    return res.status(500).render('dashboard', { message: 'Internal server error' });
+  }
+}; */
+
+
 

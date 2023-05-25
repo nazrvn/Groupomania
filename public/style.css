@@ -1,3 +1,8 @@
-.btn, .btn-sm, .btn-warning {
-    box-shadow: 0 2px 15px -3px rgb(0 0 0 / 7%), 0 10px 20px -2px rgb(0 0 0 / 4%);
+.edit-form-wrapper {
+    width: 100%; /* Adjust the width as needed */
 }
+
+#admin_dashboard {
+    margin-left: 16px;
+}
+

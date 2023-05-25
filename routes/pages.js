@@ -36,7 +36,7 @@ router.get('/profile', authController.isLoggedIn, (req, res) => {
     }
 })
 
-router.get('/dashboard', authController.isLoggedIn, authController.GetUsers, (req, res) => {
+router.get('/dashboard', authController.isLoggedIn, authController.GetUsers, authController.EditUser, (req, res) => {
     try {
       if (req.user.role === 'admin') {
         res.render('dashboard');

@@ -37,21 +37,29 @@
   </div>
 </nav>
 
-<div class="container py-4">
+<div class="container py-4 justify-content-center">
 
-    <h2>Admin Dashboard</h2>
+    <h2 id="admin_dashboard">Admin Dashboard</h2>
+
+    {{#if message}}
+        <h6 class="alert alert-success mt-4">{{message}}</h6>
+    {{/if}}
 
     <div class="bg-light p-5 rounded-lg m-3">
 
+      <h3>Users</h3>
+
+      <hr class="hr" />
+
       <table class="table table-dark table-stripped">
-        <thread>
+        <thead>
           <tr>
             <th>Name</th>
             <th>Email</th>
             <th>Password</th>
             <th>Action</th>
           </tr>
-        </thread>
+        </thead>
         <tbody>
           {{#each user}}
               <tr>
@@ -59,8 +67,34 @@
                 <td>{{this.email}}</td>
                 <td>{{this.password}}</td>
                 <td>
-                  <a href="edit/{{ this.userId }}" class="btn btn-sm btn-primary">Edit</a>
+                  <a class="btn btn-sm btn-primary" onclick="toggleEditDiv('{{ this.name }}')">Edit</a>
                   <a href="delete/{{ this.name }}" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+              </tr>
+              <tr id="editUserDiv-{{ this.name }}" style="display: none; width: 100%;">
+                <td colspan="4">
+                  <div class="edit-form-wrapper">
+                    <form action="/auth/update/{{ this.userId }}" method="POST">
+                      <br>
+                      <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" value="{{ this.name }}" aria-required="true">
+                      </div>
+                      <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" value="{{ this.email }}" aria-required="true">
+                      </div>
+                      <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" aria-required="true">
+                      </div>
+                      <div class="mb-3">
+                        <label for="passConfirm" class="form-label">Password Confirm</label>
+                        <input type="password" class="form-control" id="passConfirm" name="passwordConfirm"  aria-required="true">
+                      </div>
+                      <button type="submit" class="btn btn-success">Edit user</button>
+                    </form>
+                  </div>
                 </td>
               </tr>
           {{/each}}
@@ -73,35 +107,44 @@
 
       <form id="addUserForm" style="display: none;" action="/auth/save" method="POST">
         <br>
-          <div class="mb-3">
-            <label for="name" class="form-label">Name</label>
-            <input type="text" class="form-control" id="name" name="name" value="{{ user.name }}">
-          </div>
-          <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}">
-          </div>
-          <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
-            <input type="password" class="form-control" id="password" name="password" value="{{ user.password }}">
-          </div>
-          <div class="mb-3">
-            <label for="passConfirm" class="form-label">Password Confirm</label>
-            <input type="password" class="form-control" id="passConfirm" name="passwordConfirm" value="{{ user.password }}">
-          </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+        <div class="mb-3">
+          <label for="name" class="form-label">Name</label>
+          <input type="text" class="form-control" id="name" name="name" value="{{ user.name }}" aria-required="true">
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}" aria-required="true">
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" class="form-control" id="password" name="password" value="{{ user.password }}" aria-required="true">
+        </div>
+        <div class="mb-3">
+          <label for="passConfirm" class="form-label">Password Confirm</label>
+          <input type="password" class="form-control" id="passConfirm" name="passwordConfirm" value="{{ user.password }}" aria-required="true">
+        </div>
+        <button type="submit" class="btn btn-success">Add user</button>
+      </form>
 
-        <script>
-          function toggleAddUserForm() {
-            var form = document.getElementById("addUserForm");
-            if (form.style.display === "none") {
-              form.style.display = "block";
-            } else {
-              form.style.display = "none";
-            }
+      <script>
+        function toggleAddUserForm() {
+          var form = document.getElementById("addUserForm");
+          if (form.style.display === "none") {
+            form.style.display = "block";
+          } else {
+            form.style.display = "none";
           }
-        </script>
+        }
+
+        function toggleEditDiv(userId) {
+          let div = document.getElementById("editUserDiv-" + userId);
+          if (div.style.display === "none") {
+            div.style.display = "contents";
+          } else {
+            div.style.display = "none";
+          }
+        }
+      </script>
     </div>
 </div>
 
