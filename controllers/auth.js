@@ -177,17 +177,16 @@ exports.logout = async (req, res) => {
 }
 
 // ADMIN
-exports.AddUser = async (req, res) => {
 
+exports.addUser = async (req, res) => {
   console.log(req.body);
 
   const { name, email, password, passwordConfirm } = req.body;
 
-  db.query('SELECT email FROM users WHERE email = ?', [email], async (error, results) => {
-    if (error) {
-      console.log(error);
-    }
-    if (results.length > 0) {
+  try {
+    const existingUser = await db.query('SELECT email FROM users WHERE email = ?', [email]);
+
+    if (existingUser.length > 0) {
       return res.render('dashboard', {
         message: 'That email is already in use!'
       });
@@ -197,25 +196,28 @@ exports.AddUser = async (req, res) => {
       });
     }
 
-    let hashedPassword = await bcrypt.hash(password, 8);
+    const hashedPassword = await bcrypt.hash(password, 8);
     console.log(hashedPassword);
 
-    db.query('INSERT INTO users SET ?', { name, email, password: hashedPassword}, (error, results) => {
+    db.query('INSERT INTO users SET ?', { name, email, password: hashedPassword }, (error, results) => {
       if (error) {
         console.log(error);
         return res.render('dashboard', {
           message: 'Error adding user'
         });
       } else {
-        return res.render('dashboard', {
-          message: 'User added !'
-        });
+        return res.redirect('/dashboard');
       }
     });
-  });
+  } catch (error) {
+    console.log(error);
+    return res.render('dashboard', {
+      message: 'An error occurred while adding the user'
+    });
+  }
 }
 
-exports.GetUsers = async (req, res) => {
+exports.getUsers = async (req, res) => {
     db.query('SELECT * FROM users', (error, results) => {
       if (error) {
         throw error;
@@ -225,10 +227,10 @@ exports.GetUsers = async (req, res) => {
     });
 }
 
-exports.EditUser = async (req, res) => {
+exports.editUser = async (req, res) => {
   try {
-    console.log(req.body);
-    console.log(req.params.id);
+    /* console.log(req.body);
+    console.log(req.params.id); */
 
     const { name, email, password } = req.body;
     const userId = req.params.id;
@@ -236,68 +238,50 @@ exports.EditUser = async (req, res) => {
     let hashedPassword = await bcrypt.hash(password, 8);
     console.log(hashedPassword);
 
-    db.query(
-      'UPDATE users SET name = ?, email = ?, password = ? WHERE userId = ?',
-      [name, email, hashedPassword, userId],
-      async (error, results) => {
-        if (error) {
-          throw error;
+    db.query('UPDATE users SET name = ?, email = ?, password = ? WHERE userId = ?', [name, email, hashedPassword, userId], async (error, results) => {
+      if (error) {
+        throw error;
+      } else {
+        console.log(results);
+        if (results.changedRows === 0) {
+          // No rows were affected, indicating the user was not found
+          return res.status(404).render('dashboard', { message: 'User not found' });
         } else {
-          console.log(results);
-          if (results.changedRows === 0) {
-            // No rows were affected, indicating the user was not found
-            return res.status(404).render('dashboard', { message: 'User not found' });
-          } else {
-            // Fetch the updated user data from the database
-            db.query('SELECT * FROM users', (error, updatedResults) => {
-              if (error) {
-                throw error;
-              } else {
-                return res.status(200).render('dashboard', { message: 'User updated successfully', user: updatedResults });
-              }
-            });
-          }
+          // Fetch the updated user data from the database
+          db.query('SELECT * FROM users', (error, updatedResults) => {
+            if (error) {
+              throw error;
+            } else {
+              return res.redirect('/dashboard');
+            }
+          });
         }
       }
-    );
+    });
   } catch (error) {
     console.log(error);
     return res.status(500).render('dashboard', { message: 'Internal server error' });
   }
 }
 
-/* exports.EditUser = async (req, res) => {
+exports.deleteUser = (req, res) => {
   try {
-
-    console.log(req.body);
-    console.log(req.params.id);
-
-    const { name, email, password } = req.body;
     const userId = req.params.id;
-
-    let hashedPassword = await bcrypt.hash(password, 8);
-    console.log(hashedPassword);
-
-    db.query('UPDATE users SET name = ?, email = ?, password = ? WHERE userId = ?', [name, email, hashedPassword, userId], (error, results) => {
-        if (error) {
-          throw error;
+    const sql = 'DELETE FROM users WHERE userId = ?';
+    db.query(sql, [userId], (err, result) => {
+      if (err) {
+        console.log(err);
+        res.status(500).json({ error: 'An error occurred while deleting the user.' });
+      } else {
+        if (result.affectedRows === 0) {
+          res.status(404).json({ error: 'User not found.' });
         } else {
-          console.log(results);
-          if (results.changedRows === 0) {
-            // No rows were affected, indicating the user was not found
-            return res.status(404).render('dashboard', { message: 'User not found' });
-          } else {
-            return res.status(200).render('dashboard', { message: 'User updated successfully' });
-          }
+          res.json({ message: 'User deleted successfully.' });
         }
       }
-      
-    );
+    });
   } catch (error) {
     console.log(error);
-    return res.status(500).render('dashboard', { message: 'Internal server error' });
+    res.status(500).json({ error: 'An error occurred while deleting the user.' });
   }
-}; */
-
-
-
+}

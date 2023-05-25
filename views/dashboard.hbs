@@ -71,7 +71,7 @@
                 <td>{{this.password}}</td>
                 <td>
                   <a class="btn btn-sm btn-primary" onclick="toggleEditDiv('{{ this.name }}')">Edit</a>
-                  <a href="delete/{{ this.name }}" class="btn btn-sm btn-danger">Delete</a>
+                  <button class="btn btn-sm btn-danger" onclick="deleteUser('{{ this.userId }}')">Delete</button>
                 </td>
               </tr>
               <tr id="editUserDiv-{{ this.name }}" style="display: none; width: 100%;">
@@ -147,6 +147,30 @@
             div.style.display = "none";
           }
         }
+
+        function deleteUser(userId) {
+          if (confirm("Are you sure you want to delete this user?")) {
+            fetch(`/auth/delete/${userId}`, {
+              method: 'DELETE'
+            })
+            .then(response => response.json())
+            .then(data => {
+              if (data.error) {
+                alert(data.error.message);
+              } else {
+                // Optionally, you can display a success message or update the UI accordingly
+                alert("User deleted successfully!");
+                // Reload the page or update the user list
+                location.reload();
+              }
+            })
+            .catch(error => {
+              console.log(error);
+              alert("An error occurred while deleting the user.");
+            });
+          }
+        }
+
       </script>
     </div>
 </div>
