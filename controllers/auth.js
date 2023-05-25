@@ -3,97 +3,6 @@ const bcrypt = require('bcryptjs');
 const { promisify } = require('util');
 const db = require('../database_connect');
 
-/* exports.register = (req, res) => {
-  console.log(req.body);
-
-  const { name, email, password, passwordConfirm } = req.body;
-
-  db.query('SELECT * FROM users WHERE role = "admin"', async (error, results) => {
-    if (error) {
-      console.log(error);
-      return res.render('register', {
-        message: 'Error checking for admin'
-      });
-    }
-
-    if (results.length > 0) {
-      // SI ADMIN EXISTE, L'UTTILISATEUR PREND LE ROLE DE user
-      const role = 'user';
-
-      db.query('INSERT INTO users SET ?', { name, email, password, role }, (error, results) => {
-          if (error) {
-            console.log(error);
-            return res.render('register', {
-              message: 'Error registering user'
-            });
-          } else {
-            return res.render('register', {
-              message: 'User Registered!'
-            });
-          }
-        }
-      );
-    } else {
-      // SI L'ADMIN EXISTE PAS, L'UTTILISATEUR PREND LE ROLE admin
-      const role = 'admin';
-
-      db.query( 'INSERT INTO users SET ?', { name, email, password, role }, (error, results) => {
-          if (error) {
-            console.log(error);
-            return res.render('register', {
-              message: 'Error registering admin'
-            });
-          } else {
-            return res.render('register', {
-              message: 'Admin Registered!'
-            });
-          }
-        }
-      );
-    }
-  });
-}
-
-exports.register = (req, res) => {
-  console.log(req.body);
-
-  const { name, email, password, passwordConfirm } = req.body;
-
-  db.query('SELECT email FROM users WHERE email = ?', [email], async (error, results) => {
-      if(error){
-          console.log(error)
-      }
-      if (results.length > 0){
-          return res.render('register', {
-              message: 'That email is already in use !'
-          })
-      } else if (password !== passwordConfirm){
-          return res.render('register', {
-              message: 'Passwords do not match !'
-          });
-      }
-
-      let hashedPassword = await bcrypt.hash(password, 8);
-      console.log(hashedPassword);
-
-      // par default le role est égal à User
-      //const role = 'User';
-
-      const role = req.body.role || 'user';
-
-      db.query('INSERT INTO users SET ?', { name: name, email: email, password: hashedPassword, role: role }, (error, results) => {
-          if(error){
-              console.log(error);
-          } else {
-              //console.log(results);
-              return res.render('register', {
-                  message: 'User Registered !'
-              });
-          }
-      });
-  
-  });
-} */
 
 exports.register = (req, res) => {
   console.log(req.body);
@@ -178,7 +87,7 @@ exports.register = (req, res) => {
       });
     }
   });
-};
+}
 
 exports.login = async (req, res) => {
     try {
@@ -266,3 +175,63 @@ exports.logout = async (req, res) => {
   res.status(200).redirect('/')
 
 }
+
+// ADMIN
+exports.AddUser = async (req, res) => {
+
+  console.log(req.body);
+
+  const { name, email, password, passwordConfirm } = req.body;
+
+  db.query('SELECT email FROM users WHERE email = ?', [email], async (error, results) => {
+    if (error) {
+      console.log(error);
+    }
+    if (results.length > 0) {
+      return res.render('dashboard', {
+        message: 'That email is already in use!'
+      });
+    } else if (password !== passwordConfirm) {
+      return res.render('dashboard', {
+        message: 'Passwords do not match!'
+      });
+    }
+
+    let hashedPassword = await bcrypt.hash(password, 8);
+    console.log(hashedPassword);
+
+    db.query('INSERT INTO users SET ?', { name, email, password: hashedPassword}, (error, results) => {
+      if (error) {
+        console.log(error);
+        return res.render('dashboard', {
+          message: 'Error adding user'
+        });
+      } else {
+        return res.render('dashboard', {
+          message: 'User added !'
+        });
+      }
+    });
+  });
+}
+
+exports.GetUsers = async (req, res) => {
+    db.query('SELECT * FROM users', (error, results) => {
+      if (error) {
+        throw error;
+      } else {
+      res.render('dashboard', { user: results });
+      }
+    });
+}
+
+exports.EditUser = async (req, res) => {
+  db.query('SELECT * FROM users', (error, results) => {
+    if (error) {
+      throw error;
+    } else {
+    res.render('dashboard', { user: results });
+    }
+  });
+}
+

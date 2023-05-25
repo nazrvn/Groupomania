@@ -10,13 +10,13 @@ router.get('/', authController.isLoggedIn, (req, res) => {
 
 router.get('/login', (req, res) => {
     res.render('login');
- })
+})
 
 router.get('/register', (req, res) => {
     res.render('register');
- })
+})
 
- router.get('/profile', authController.isLoggedIn, (req, res) => {
+router.get('/profile', authController.isLoggedIn, (req, res) => {
     try {
       if (req.user) {
         if (req.user.role === 'admin') {
@@ -36,7 +36,7 @@ router.get('/register', (req, res) => {
     }
 })
 
-router.get('/dashboard', authController.isLoggedIn, (req, res) => {
+router.get('/dashboard', authController.isLoggedIn, authController.GetUsers, (req, res) => {
     try {
       if (req.user.role === 'admin') {
         res.render('dashboard');
@@ -46,21 +46,8 @@ router.get('/dashboard', authController.isLoggedIn, (req, res) => {
     } catch (error) {
       console.log(error);
     }
-});  
+})
 
-/* router.get('/profile', authController.isLoggedIn, (req, res) => {
 
-    try {
-        if(req.user){
-            res.render('profile', {
-                user: req.user
-            });
-        } else {
-            res.redirect('/login');
-        }
-    } catch (error){
-        console.log(error);
-    }
-})  */
 
- module.exports = router;
+module.exports = router;

@@ -4,16 +4,16 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 
 app.get('/', (req, res) => {
-   res.render('index');
+  res.render('index');
 })
 
 app.get('/login', (req, res) => {
     res.render('login');
- })
+})
 
 app.get('/register', (req, res) => {
     res.render('register');
- })
+})
 
 const publicDirectory = path.join(__dirname, './public');
 app.use(express.static(publicDirectory));
