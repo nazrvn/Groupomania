@@ -1,8 +1,13 @@
 .edit-form-wrapper {
-    width: 100%; /* Adjust the width as needed */
+    width: 100%;
 }
 
 #admin_dashboard {
     margin-left: 16px;
 }
 
+.users_ctn {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
