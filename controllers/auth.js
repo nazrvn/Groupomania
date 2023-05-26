@@ -177,7 +177,6 @@ exports.logout = async (req, res) => {
 }
 
 // ADMIN
-
 exports.addUser = async (req, res) => {
   console.log(req.body);
 
