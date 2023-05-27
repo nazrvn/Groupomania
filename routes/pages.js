@@ -48,6 +48,4 @@ router.get('/dashboard', authController.isLoggedIn, authController.getUsers, (re
     }
 })
 
-
-
 module.exports = router;

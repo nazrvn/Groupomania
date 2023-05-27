@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400&display=swap');
+
+body {
+    font-family: 'Lato', sans-serif;
+}
+
 .edit-form-wrapper {
     width: 100%;
 }
@@ -10,4 +16,56 @@
     display: flex;
     align-items: center;
     gap: 20px;
+}
+
+#group-home-logo {
+    width: 300px;
+    height: 300px;
+    margin-right: 20px;
+}
+
+#home-container {
+    background-image: url(images/bg.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+#home-container-one {
+    width: 500px;
+    height: 500px;
+    background-image: url(images/bg-one.jpg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: white;
+}
+
+#home-container-two {
+    width: 500px;
+    height: 500px;
+    background-image: url(images/bg-two.jpg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: white;
+}
+
+#home-container-three {
+    width: 500px;
+    height: 500px;
+    background-image: url(images/bg-three.jpg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: white;
+}
+
+.mask-custom {
+    backdrop-filter: blur(4px);
+    background-color: rgba(78,81,102,0.1);
+    border-radius: 3px;
+}
+
+#home-p {
+    color: white;
 }
