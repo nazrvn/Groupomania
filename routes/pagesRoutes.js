@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const authController = require('../controllers/auth');
+const authController = require('../controllers/authController');
 
 router.get('/', authController.isLoggedIn, (req, res) => {
     res.render('index', {
@@ -36,7 +36,7 @@ router.get('/profile', authController.isLoggedIn, (req, res) => {
     }
 })
 
-router.get('/dashboard', authController.isLoggedIn, authController.getUsers, (req, res) => {
+router.get('/dashboard', authController.isLoggedIn, authController.getUser, (req, res) => {
     try {
       if (req.user.role === 'admin') {
         res.render('dashboard');

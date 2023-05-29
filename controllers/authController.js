@@ -87,47 +87,54 @@ exports.register = (req, res) => {
       });
     }
   });
-}
+};
 
 exports.login = async (req, res) => {
-    try {
-        //console.log(req.body);
-      const { email, password } = req.body;
-  
-      if( !email || !password ) {
-        return res.status(400).render('login', {
-          message: 'Please provide an email and password'
-        })
-      }
-  
-      db.query('SELECT * FROM users WHERE email = ?', [email], async (error, results) => {
-        if( !results || !(await bcrypt.compare(password, results[0].password)) ) {
-          res.status(401).render('login', {
-            message: 'Email or Password is incorrect'
-          })
-        } else {
-          const id = results[0].userId;
-  
-          const token = jwt.sign({ id }, process.env.JWT_SECRET, {
-            expiresIn: process.env.JWT_EXPIRES_IN
-          });
-  
-          const cookieOptions = {
-            expires: new Date(
-              Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
-            ),
-            httpOnly: true
-          }
-  
-          res.cookie('jwt', token, cookieOptions );
-          res.status(200).redirect("/profile");
-        }
-      })
-  
-    } catch (error) {
-      console.log(error);
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).render('login', {
+        message: 'Please provide an email and password'
+      });
     }
-}
+
+    db.query('SELECT * FROM users WHERE email = ?', [email], async (error, results) => {
+      if (!results || !(await bcrypt.compare(password, results[0].password))) {
+        res.status(401).render('login', {
+          message: 'Email or Password is incorrect'
+        });
+      } else {
+        const id = results[0].userId;
+        const role = results[0].role; // Get the user's role from the database
+
+        const token = jwt.sign({ id }, process.env.JWT_SECRET, {
+          expiresIn: process.env.JWT_EXPIRES_IN
+        });
+
+        const cookieOptions = {
+          expires: new Date(
+            Date.now() + process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
+          ),
+          httpOnly: true
+        };
+
+        res.cookie('jwt', token, cookieOptions);
+
+        if (role === 'admin') {
+          // Redirect admin to the dashboard
+          return res.status(200).redirect("/dashboard");
+        } else {
+          // Redirect other users to the profile page
+          return res.status(200).redirect("/profile");
+        }
+      }
+    });
+
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 exports.isLoggedIn = async (req, res, next) => {
 
@@ -163,7 +170,7 @@ exports.isLoggedIn = async (req, res, next) => {
       console.log(error)
     }
     
-}
+};
 
 exports.logout = async (req, res) => {
 
@@ -174,7 +181,7 @@ exports.logout = async (req, res) => {
 
   res.status(200).redirect('/')
 
-}
+};
 
 // ADMIN
 exports.addUser = async (req, res) => {
@@ -214,9 +221,9 @@ exports.addUser = async (req, res) => {
       message: 'An error occurred while adding the user'
     });
   }
-}
+};
 
-exports.getUsers = async (req, res) => {
+exports.getUser = async (req, res) => {
     db.query('SELECT * FROM users', (error, results) => {
       if (error) {
         throw error;
@@ -224,7 +231,7 @@ exports.getUsers = async (req, res) => {
       res.render('dashboard', { user: results });
       }
     });
-}
+};
 
 exports.editUser = async (req, res) => {
   try {
@@ -261,7 +268,7 @@ exports.editUser = async (req, res) => {
     console.log(error);
     return res.status(500).render('dashboard', { message: 'Internal server error' });
   }
-}
+};
 
 exports.deleteUser = (req, res) => {
   try {
@@ -283,4 +290,4 @@ exports.deleteUser = (req, res) => {
     console.log(error);
     res.status(500).json({ error: 'An error occurred while deleting the user.' });
   }
-}
+};
