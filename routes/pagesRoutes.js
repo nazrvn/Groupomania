@@ -3,49 +3,56 @@ const router = express.Router();
 const authController = require('../controllers/authController');
 
 router.get('/', authController.isLoggedIn, (req, res) => {
-    res.render('index', {
-        user: req.user
-    });
+  res.render('index', {
+    user: req.user
+  });
 })
 
 router.get('/login', (req, res) => {
-    res.render('login');
+  res.render('login');
 })
 
 router.get('/register', (req, res) => {
-    res.render('register');
+  res.render('register');
 })
 
 router.get('/profile', authController.isLoggedIn, (req, res) => {
-    try {
-      if (req.user) {
-        if (req.user.role === 'admin') {
-          res.render('admin', {
-            user: req.user
-          });
-        } else {
-          res.render('profile', {
-            user: req.user
-          });
-        }
+  try {
+    if (req.user) {
+      if (req.user.role === 'admin') {
+        res.render('admin', {
+          user: req.user
+        });
       } else {
-        res.redirect('/login');
+        res.render('profile', {
+          user: req.user
+        });
       }
-    } catch (error) {
-      console.log(error);
+    } else {
+      res.redirect('/login');
     }
+  } catch (error) {
+    console.log(error);
+  }
 })
 
 router.get('/dashboard', authController.isLoggedIn, authController.getUser, (req, res) => {
-    try {
-      if (req.user.role === 'admin') {
-        res.render('dashboard');
-      } else {
-        res.redirect('/login');
-      }
-    } catch (error) {
-      console.log(error);
+  try {
+    if (req.user.role === 'admin') {
+      res.render('dashboard');
+    } else {
+      res.redirect('/login');
     }
+  } catch (error) {
+    console.log(error);
+  }
+})
+
+router.get('/post', authController.getUser, (req, res) => {
+  
+  const user = req.user;
+
+  res.render('post', { user });
 })
 
 module.exports = router;

@@ -223,7 +223,7 @@ exports.addUser = async (req, res) => {
   }
 };
 
-exports.getUser = async (req, res) => {
+exports.getUser = async (req, res, next) => {
     db.query('SELECT * FROM users', (error, results) => {
       if (error) {
         throw error;
