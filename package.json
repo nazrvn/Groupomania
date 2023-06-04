@@ -11,7 +11,7 @@
     "mysql": "^2.18.1",
     "nodemon": "^2.0.22"
   },
-  "name": "myapirest",
+  "name": "grouporama",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -20,5 +20,6 @@
   "author": "nazrvn",
   "license": "ISC",
   "keywords": [],
+  "devDependencies": {},
   "description": ""
 }

@@ -1,35 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     {{> head}}
     <title>Groupomania - Home</title>
 </head>
+
 <body>
 
-{{> navbar}}
+    {{!-- NAVBAR --}}
+    {{!-- {{> navbarDefault }} --}}
 
-<div class="container py-4">
+    <div class="container py-4">
 
-    <div id="home-container" class="bg-light p-5 rounded-lg m-3">
-        <div class="d-flex align-items-center">
+        <div id="home-container" class="bg-light p-5 rounded-lg m-3">
+            <div class="d-flex align-items-center">
 
-            <img id="group-home-logo" src="images/grouporamia-black.png" alt="Logo">
+                <img id="group-home-logo" src="images/grouporamia-black.png" alt="Logo">
 
-            <p id="home-p" class="lead"><mark>Bienvenue sur notre page d'accueil dédiée au bien-être au travail ! Nous sommes engagés à améliorer l'ambiance et la satisfaction de nos employés. Rejoignez notre communauté où votre bien-être est notre priorité. Ensemble, créons un environnement professionnel positif et épanouissant.</mark></p>
-            <hr class="my-4">
+                <p id="home-p" class="lead"><mark>Bienvenue sur notre page d'accueil dédiée au bien-être au travail !
+                        Nous sommes engagés à améliorer l'ambiance et la satisfaction de nos employés. Rejoignez notre
+                        communauté où votre bien-être est notre priorité. Ensemble, créons un environnement
+                        professionnel positif et épanouissant.</mark></p>
+                <hr class="my-4">
+            </div>
         </div>
+
+        <div class="page-container d-flex bd-highlight">
+
+            {{> homeContainer containerNumber="one" text="Neque porro quisquam est qui dolorem ipsum quia dolor sit amet
+            consectetur, adipisci velit..."}}
+            {{> homeContainer containerNumber="two" text="Neque porro quisquam est qui dolorem ipsum quia dolor sit
+            amet, consectetur, adipisci velit..."}}
+            {{> homeContainer containerNumber="three" text="Neque porro quisquam est qui dolorem ipsum quia dolor sit
+            amet consectetur, adipisci velit..."}}
+
+        </div>
+
     </div>
 
-    <div class="page-container d-flex bd-highlight">
-
-        {{> homeContainer containerNumber="one" text="Neque porro quisquam est qui dolorem ipsum quia dolor sit amet consectetur, adipisci velit..."}}
-        {{> homeContainer containerNumber="two" text="Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."}}
-        {{> homeContainer containerNumber="three" text="Neque porro quisquam est qui dolorem ipsum quia dolor sit amet consectetur, adipisci velit..."}}
-
-    </div>
-
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+        crossorigin="anonymous"></script>
 </body>
+
 </html>

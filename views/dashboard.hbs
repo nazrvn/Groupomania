@@ -1,36 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    {{> head}}
-    <title>Groupomania - Dashboard</title>
+  {{> head}}
+  <title>Groupomania - Dashboard</title>
 </head>
+
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Groupomania</a>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" href="/">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/dashboard">Dashboard</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/auth/logout">Logout</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
+  {{!-- NAVBAR --}}
+  {{!-- {{> navbarAdmin }} --}}
 
-<div class="container py-4 justify-content-center">
+  <div class="container py-4 justify-content-center">
 
     <h2 id="admin_dashboard">Admin Dashboard</h2>
 
     {{#if message}}
-        <h6 class="alert alert-success mt-4">{{message}}</h6>
+    <h6 class="alert alert-success mt-4">{{message}}</h6>
     {{/if}}
 
     <div class="bg-light p-5 rounded-lg m-3">
@@ -53,41 +39,44 @@
         </thead>
         <tbody>
           {{#each user}}
-              <tr>
-                <td>{{this.name}}</td>
-                <td>{{this.email}}</td>
-                <td>{{this.password}}</td>
-                <td>
-                  <a class="btn btn-sm btn-primary" onclick="toggleEditDiv('{{ this.name }}')">Edit</a>
-                  <button class="btn btn-sm btn-danger" onclick="deleteUser('{{ this.userId }}')">Delete</button>
-                </td>
-              </tr>
-              <tr id="editUserDiv-{{ this.name }}" style="display: none; width: 100%;">
-                <td colspan="4">
-                  <div class="edit-form-wrapper">
-                    <form action="/auth/update/{{ this.userId }}" method="POST">
-                      <br>
-                      <div class="mb-3">
-                        <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="name" name="name" value="{{ this.name }}" aria-required="true">
-                      </div>
-                      <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" value="{{ this.email }}" aria-required="true">
-                      </div>
-                      <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" aria-required="true">
-                      </div>
-                      <div class="mb-3">
-                        <label for="passConfirm" class="form-label">Password Confirm</label>
-                        <input type="password" class="form-control" id="passConfirm" name="passwordConfirm"  aria-required="true">
-                      </div>
-                      <button type="submit" class="btn btn-success">Edit user</button>
-                    </form>
+          <tr>
+            <td>{{this.name}}</td>
+            <td>{{this.email}}</td>
+            <td>{{this.password}}</td>
+            <td>
+              <a class="btn btn-sm btn-primary" onclick="toggleEditDiv('{{ this.name }}')">Edit</a>
+              <button class="btn btn-sm btn-danger" onclick="deleteUser('{{ this.userId }}')">Delete</button>
+            </td>
+          </tr>
+          <tr id="editUserDiv-{{ this.name }}" style="display: none; width: 100%;">
+            <td colspan="4">
+              <div class="edit-form-wrapper">
+                <form action="/auth/update/{{ this.userId }}" method="POST">
+                  <br>
+                  <div class="mb-3">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="name" name="name" value="{{ this.name }}"
+                      aria-required="true">
                   </div>
-                </td>
-              </tr>
+                  <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" value="{{ this.email }}"
+                      aria-required="true">
+                  </div>
+                  <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" aria-required="true">
+                  </div>
+                  <div class="mb-3">
+                    <label for="passConfirm" class="form-label">Password Confirm</label>
+                    <input type="password" class="form-control" id="passConfirm" name="passwordConfirm"
+                      aria-required="true">
+                  </div>
+                  <button type="submit" class="btn btn-success">Edit user</button>
+                </form>
+              </div>
+            </td>
+          </tr>
           {{/each}}
         </tbody>
       </table>
@@ -104,15 +93,18 @@
         </div>
         <div class="mb-3">
           <label for="email" class="form-label">Email</label>
-          <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}" aria-required="true">
+          <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}"
+            aria-required="true">
         </div>
         <div class="mb-3">
           <label for="password" class="form-label">Password</label>
-          <input type="password" class="form-control" id="password" name="password" value="{{ user.password }}" aria-required="true">
+          <input type="password" class="form-control" id="password" name="password" value="{{ user.password }}"
+            aria-required="true">
         </div>
         <div class="mb-3">
           <label for="passConfirm" class="form-label">Password Confirm</label>
-          <input type="password" class="form-control" id="passConfirm" name="passwordConfirm" value="{{ user.password }}" aria-required="true">
+          <input type="password" class="form-control" id="passConfirm" name="passwordConfirm"
+            value="{{ user.password }}" aria-required="true">
         </div>
         <button type="submit" class="btn btn-success">Add user</button>
       </form>
@@ -141,28 +133,31 @@
             fetch(`/auth/delete/${userId}`, {
               method: 'DELETE'
             })
-            .then(response => response.json())
-            .then(data => {
-              if (data.error) {
-                alert(data.error.message);
-              } else {
-                // Optionally, you can display a success message or update the UI accordingly
-                alert("User deleted successfully!");
-                // Reload the page or update the user list
-                location.reload();
-              }
-            })
-            .catch(error => {
-              console.log(error);
-              alert("An error occurred while deleting the user.");
-            });
+              .then(response => response.json())
+              .then(data => {
+                if (data.error) {
+                  alert(data.error.message);
+                } else {
+                  // Optionally, you can display a success message or update the UI accordingly
+                  alert("User deleted successfully!");
+                  // Reload the page or update the user list
+                  location.reload();
+                }
+              })
+              .catch(error => {
+                console.log(error);
+                alert("An error occurred while deleting the user.");
+              });
           }
         }
 
       </script>
     </div>
-</div>
+  </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+    crossorigin="anonymous"></script>
 </body>
+
 </html>
