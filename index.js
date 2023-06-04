@@ -28,6 +28,6 @@ app.set('view engine', 'hbs');
 app.use('/', require('./routes/pages'));
 app.use('/auth', require('./routes/auth'));
 
-app.listen(3000, () =>
+app.listen(3000 || 3306, () =>
   console.log('Server ON: http://localhost:3000')
 );
