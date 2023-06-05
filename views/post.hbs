@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<!-- Coding by CodingNepal || www.codingnepalweb.com -->
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Boxicons CSS -->
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+  <!-- icon -->
+  <link rel="icon" type="image/x-icon" href="./public/images/icon.png">
+  <title>groupomania</title>
+  <link rel="stylesheet" href="./css/post.css" />
+</head>
+
+<body>
+  <!-- navbar -->
+  <nav class="navbar">
+    <div class="logo_item">
+      <i class="bx bx-menu" id="sidebarOpen"></i>
+      <div class="img_item">
+        <img src="images/icon.png" alt=""></img>
+        <p class="groupomania">groupomania</p>
+      </div>
+    </div>
+
+    <div class="navbar_content">
+      <i class="bi bi-grid"></i>
+      <i class='bx bx-sun' id="darkLight"></i>
+      <img src="images/profile.jpg" alt="" class="profile" />
+    </div>
+  </nav>
+
+  <!-- sidebar -->
+  <nav class="sidebar">
+    <div class="menu_content">
+      <ul class="menu_items">
+        <div class="menu_title menu_dashboard"></div>
+        <!--  -->
+        <li class="item">
+          <div href="#" class="nav_link">
+            <span class="navlink_icon">
+              <i class="bx bx-home-alt"></i>
+            </span>
+            <span class="navlink">Home</span>
+          </div>
+        </li>
+        <!--  -->
+
+        <!--  -->
+        <li class="item">
+          <div href="#" class="nav_link">
+            <span class="navlink_icon">
+              <i class='bx bx-conversation'></i>
+            </span>
+            <span class="navlink">Conversation</span>
+          </div>
+        </li>
+        <!--  -->
+      </ul>
+      <ul class="menu_items">
+        <div class="menu_title menu_setting"></div>
+        <li class="item">
+          <div href="#" class="nav_link">
+            <span class="navlink_icon">
+              <i class="bx bx-grid-alt"></i>
+            </span>
+            <span class="navlink">Dashboard</span>
+          </div>
+        </li>
+        <li class="item">
+          <a href="#" class="nav_link">
+            <span class="navlink_icon">
+              <i class="bx bx-cog"></i>
+            </span>
+            <span class="navlink">Setting</span>
+          </a>
+        </li>
+        <li class="item">
+          <a href="#" class="nav_link">
+            <span class="navlink_icon">
+              <i class='bx bx-log-out'></i>
+            </span>
+            <span class="navlink">Log out</span>
+          </a>
+        </li>
+      </ul>
+      <!-- sidebar open - close -->
+      <div class="bottom_content">
+        <div class="bottom expand_sidebar">
+          <span> Expand</span>
+          <i class='bx bx-log-in-circle'></i>
+        </div>
+        <div class="bottom collapse_sidebar">
+          <span> Collapse</span>
+          <i class='bx bx-log-out-circle'></i>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <main>
+    <!-- post -->
+    <div class="write_container">
+      <div class="write">
+        <form action="#">
+          <textarea placeholder="You can write here..." spellcheck="false" required></textarea>
+          <button><i class='bx bxs-send'></i></button>
+        </form>
+      </div>
+    </div>
+    <div class="post_container">
+      <div class="post">
+        <div class="user">
+          <div class="left-profile">
+            <div class="img-profile">
+              <img src="./public/images/profile.jpg" alt="profile">
+            </div>
+            <div class="name-profile">
+              <p>Moussdu95</p>
+            </div>
+          </div>
+          <div href="#" class="dots-profile">
+            <i class='bx bx-dots-horizontal-rounded'></i>
+            <div class="dropdown-dots">
+              <div class="drop edit">
+                <i class='bx bx-edit-alt'></i>
+                <p>edit</p>
+              </div>
+              <div class="drop delete">
+                <i class='bx bx-trash'></i>
+                <p>delete</p>
+              </div>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="content-profile">
+          <p>Ouais Ouais la famille nouvelle mixtape ce soir!!🔫🔪💶</p>
+        </div>
+        <div class="comments-likes">
+          <div class="comments"><button><i class='bx bx-comment'></i></button></div>
+          <div class="likes"><button><i class='bx bx-heart'></i></button></div>
+        </div>
+      </div>
+    </div>
+    <!-- post -->
+  </main>
+  <!-- JavaScript -->
+  <script src="../public/js/post.js"></script>
+</body>
+
+</html>

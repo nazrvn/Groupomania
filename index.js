@@ -27,6 +27,6 @@ app.use('/auth', authRoutes);
 app.use('/posts', postRoutes);
 app.use('/comments', commentRoutes);
 
-app.listen(3000, () =>
+app.listen(3000 || 3306, () =>
   console.log('Server running on: http://localhost:3000')
 );
