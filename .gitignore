@@ -1,2 +1,4 @@
 .env
 database_connect.js
+database_connect.js
+.gitignore
